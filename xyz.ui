@@ -25,14 +25,11 @@ background-image: url(:/back/Background.jpg);
      <x>10</x>
      <y>200</y>
      <width>75</width>
-     <height>31</height>
+     <height>41</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">color:white;
-border-radius:5px;
-background-image: url(:/back/Button2.jpg);
-</string>
+    <string notr="true"/>
    </property>
    <property name="text">
     <string>Ok</string>
@@ -44,14 +41,11 @@ background-image: url(:/back/Button2.jpg);
      <x>90</x>
      <y>200</y>
      <width>75</width>
-     <height>31</height>
+     <height>41</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">color:white;
-border-radius:5px;
-background-image: url(:/back/Button2.jpg);
-</string>
+    <string notr="true"/>
    </property>
    <property name="text">
     <string>Cancel</string>

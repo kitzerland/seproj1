@@ -16,7 +16,6 @@ public:
     ~Dialog();
 
 private slots:
-    void makePlot();
 
     void on_pushButton_Plot_clicked();
 

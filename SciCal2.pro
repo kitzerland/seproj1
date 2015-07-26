@@ -16,18 +16,20 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     dialog.cpp \
     qcustomplot.cpp \
-    xyz.cpp
+    xyz.cpp \
+    graphwindow.cpp
 
 HEADERS  += mainwindow.h \
     dialog.h \
     qcustomplot.h \
-    xyz.h
+    xyz.h \
+    graphwindow.h
 
 FORMS    += mainwindow.ui \
     dialog.ui \
-    xyz.ui
+    xyz.ui \
+    graphwindow.ui
 
-RC_FILE = myapp.rc
 
 RESOURCES += \
     calres.qrc
