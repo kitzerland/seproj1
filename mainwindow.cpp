@@ -3,6 +3,8 @@
 #include "dialog.h"
 #include "xyz.h"
 #include "formulator.h"
+#include "loaddialog.h"
+#include "savedialog.h"
 
 double xxx = 0;double yyy = 0;double zzz=0;
 bool xyzFlag = 0;
@@ -326,4 +328,18 @@ void MainWindow::on_pushButton_Exp_clicked()
 void MainWindow::on_pushButton_Ans_clicked()
 {
     value = ans;
+}
+
+void MainWindow::on_pushButton_Load_clicked()
+{
+   LoadDialog load;
+   load.setModal(true);
+   load.exec();
+}
+
+void MainWindow::on_pushButton_Save_clicked()
+{
+    SaveDialog save;
+    save.setModal(true);
+    save.exec();
 }

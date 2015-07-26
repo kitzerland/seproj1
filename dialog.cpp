@@ -32,5 +32,6 @@ void Dialog::on_pushButton_Clear2_clicked()
 
 void Dialog::on_pushButton_Clear_clicked()
 {
-    ui->textEdit_PlotSave->setText("");
+    ui->textEdit_Formula->setText("");
+    ui->textEdit_FormulaName->setText("");
 }

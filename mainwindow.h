@@ -98,6 +98,10 @@ private slots:
 
     void on_pushButton_Ans_clicked();
 
+    void on_pushButton_Load_clicked();
+
+    void on_pushButton_Save_clicked();
+
 private:
     Ui::MainWindow *ui;
 };

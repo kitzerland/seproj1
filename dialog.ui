@@ -37,23 +37,13 @@
 background-image: url(:/back/Background.jpg);
 }</string>
   </property>
-  <widget class="QTextEdit" name="textEdit">
+  <widget class="QTextEdit" name="textEdit_FormulaName">
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>10</y>
+     <y>270</y>
      <width>231</width>
-     <height>151</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QTextEdit" name="textEdit_PlotSave">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>230</y>
-     <width>231</width>
-     <height>81</height>
+     <height>31</height>
     </rect>
    </property>
   </widget>
@@ -61,9 +51,9 @@ background-image: url(:/back/Background.jpg);
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>380</y>
+     <y>430</y>
      <width>231</width>
-     <height>81</height>
+     <height>31</height>
     </rect>
    </property>
   </widget>
@@ -115,8 +105,8 @@ background-image: url(:/back/Background.jpg);
    <property name="geometry">
     <rect>
      <x>40</x>
-     <y>330</y>
-     <width>101</width>
+     <y>380</y>
+     <width>91</width>
      <height>41</height>
     </rect>
    </property>
@@ -137,7 +127,7 @@ background-image: url(:/back/Background.jpg);
    <property name="geometry">
     <rect>
      <x>140</x>
-     <y>330</y>
+     <y>380</y>
      <width>91</width>
      <height>41</height>
     </rect>
@@ -201,6 +191,74 @@ background-image: url(:/back/Background.jpg);
     <string>Clear</string>
    </property>
   </widget>
+  <widget class="QListWidget" name="listWidget">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>10</y>
+     <width>231</width>
+     <height>161</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QTextEdit" name="textEdit_Formula">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>340</y>
+     <width>231</width>
+     <height>31</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>240</y>
+     <width>111</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Formula Name</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_2">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>310</y>
+     <width>111</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Formula</string>
+   </property>
+  </widget>
+  <zorder>textEdit_FormulaName</zorder>
+  <zorder>textEdit_Plot</zorder>
+  <zorder>pushButton_delete</zorder>
+  <zorder>pushButton_Edit</zorder>
+  <zorder>pushButton_Save</zorder>
+  <zorder>pushButton_Plot</zorder>
+  <zorder>pushButton_Clear2</zorder>
+  <zorder>listWidget</zorder>
+  <zorder>textEdit_Formula</zorder>
+  <zorder>label</zorder>
+  <zorder>label_2</zorder>
+  <zorder>pushButton_Clear</zorder>
  </widget>
  <resources/>
  <connections/>
