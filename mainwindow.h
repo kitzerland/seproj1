@@ -94,6 +94,10 @@ private slots:
 
     void on_pushButton_ToH_clicked();
 
+    void on_pushButton_Exp_clicked();
+
+    void on_pushButton_Ans_clicked();
+
 private:
     Ui::MainWindow *ui;
 };

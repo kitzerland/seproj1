@@ -22,7 +22,8 @@ void GraphWindow::makePlot(){
     for (int i=0; i<101; ++i)
     {
       x[i] = i/50.0 - 1; // x goes from -1 to 1
-      y[i] = x[i]*x[i]; // let's plot a quadratic function
+//      y[i] = x[i]*x[i]; // let's plot a quadratic function
+      y[i] = x[i] + 1;
     }
     // create graph and assign data to it:
     ui->customPlot->addGraph();

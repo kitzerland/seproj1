@@ -9,6 +9,7 @@ bool xyzFlag = 0;
 
 //create string named "value" for add formula as a string
 QString value = "";
+QString ans = "";
 
 //create temp value for undo perpose ..
 QString temp = "";
@@ -201,7 +202,7 @@ void MainWindow::on_pushButton_Cos_clicked()
 
 void MainWindow::on_pushButton_X2_clicked()
 {
-    value = value + "X²";
+    value = value + "^2";
     ui->lineEdit->setText(value);
 }
 
@@ -226,6 +227,7 @@ void MainWindow::on_pushButton_Tenp_clicked()
 using namespace Formulator;
 void MainWindow::on_pushButton_Equals_clicked()
 {
+    QString toAns = "";
     try{
         QString str = value;
         str.replace(QString("÷"), QString("/"));
@@ -255,16 +257,20 @@ void MainWindow::on_pushButton_Equals_clicked()
                 ui->lineEdit_2->setText(value + xyzInfo);
                 QString evaluatedAnswer = QString::number(fe->evaluate());
                 ui->lineEdit->setText(evaluatedAnswer);
+                toAns = evaluatedAnswer;
             }else{
                 ui->lineEdit_2->setText(value);
                 ui->lineEdit->setText(QString::fromStdString(fe->toString()));
+                toAns = QString::fromStdString(fe->toString());
             }
 
 
         }else{
             ui->lineEdit_2->setText(value);
             ui->lineEdit->setText(QString::fromStdString(fe->toString()));
+            toAns = QString::fromStdString(fe->toString());
         }
+        ans = toAns;
     }catch(exception e){
 
     }
@@ -309,4 +315,15 @@ void MainWindow::on_pushButton_ToH_clicked()
 {
     value = value + "%";
     ui->lineEdit->setText(value);
+}
+
+void MainWindow::on_pushButton_Exp_clicked()
+{
+    value = value + "exp(";
+    ui->lineEdit->setText(value);
+}
+
+void MainWindow::on_pushButton_Ans_clicked()
+{
+    value = ans;
 }

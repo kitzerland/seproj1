@@ -60,13 +60,13 @@ public:
             stringstream holderss;
             string charset = "";
             charset = text[i];
-            if (text[i] == 's' || text[i] == 'c' || text[i] == 't' || text[i] == 'l' || text[i] == 'p') {
+            if (text[i] == 's' || text[i] == 'c' || text[i] == 't' || text[i] == 'l' || text[i] == 'p' || text[i] == 'e') {
                 if (i + 2 < text.length()) {
                     stringstream ss;
                     string s;
                     ss << text[i] << text[i + 1] << text[i + 2];
                     ss >> s;
-                    if (s == "sin" || s == "cos" || s == "tan" || s == "log") {
+                    if (s == "sin" || s == "cos" || s == "tan" || s == "log" || s == "exp") {
                         charset = s;
                         i = i + 2;
                     }
@@ -120,6 +120,8 @@ public:
             return false;
         } else if (text == "log") {
             return false;
+        } else if (text == "exp") {
+            return false;
         } else if (text == "pi") {
             return false;
         } else if (text == "!") {
@@ -159,6 +161,8 @@ public:
             return "tan";
         } else if (text == "log") {
             return "log";
+        } else if (text == "exp") {
+            return "exponential";
         } else if (text == "pi") {
             return "pi";
         } else if (text == "!") {
@@ -300,6 +304,75 @@ public:
         }
         return true;
     }
+};
+
+class ExponentialFunctionElement: public FunctionElement {
+    FunctionElement fe;
+public:
+    ExponentialFunctionElement(FunctionElement arguments) {
+        fe = arguments;
+        isOperator = 1;
+        isConstant = 0;
+        isVariable = 0;
+    }
+
+    string toString() {
+        stringstream stream;
+        string str;
+
+        FormulaElement *arg = fe.getArguments().at(0);
+
+        if (arg->isOperator) {
+
+            string s = arg->toString();
+            double n = atof(s.c_str()); //returns 0 if it is not a double
+
+            if (s == "0") { //argument can be 0
+                stream << exp(n);
+            } else {
+                if (isDouble(s)) { //argument can be a double
+                    stream << exp(n);
+                } else { //or it can be a string
+                    if (s.find("(") != string::npos && s.find("(") == 0) { // if argument contains one '(' parentheses in the FRONT, there is no need to put them again
+                        stream << "exp" << s << "";
+                    } else {
+                        stream << "exp(" << s << ")";
+                    }
+                }
+            }
+
+        } else {
+            if (arg->isConstant) {
+                stream << exp(arg->get());
+            } else {
+                stream << "exp(" << arg->toString() << ")";
+            }
+        }
+
+        stream >> str;
+        //		cout << str << endl << endl;
+        return str;
+    }
+
+    void setVariableValue(string varName, double value) {
+        for (unsigned int i = 0; i < fe.getArguments().size(); i++) {
+            fe.getArguments().at(i)->setVariableValue(varName, value);
+        }
+    }
+
+    bool isFullyGrounded() {
+        for (unsigned int i = 0; i < fe.getArguments().size(); i++) {
+            if (!fe.getArguments().at(i)->isFullyGrounded()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    double evaluate() {
+        return exp(fe.getArguments().at(0)->evaluate());
+    }
+
 };
 
 class FactorialFunctionElement: public FunctionElement {
@@ -1224,6 +1297,24 @@ FormulaElement* FormulaElement::parseFormula(string text) {
 
 //		printTockens(tockens, transformedVector);
 
+        for (unsigned int i = 0; i < tockens.size(); i++) { //cos
+            if (tockenType(tockens.at(i)) == "exponential") {
+                if (i + 3 < tockens.size()) {
+                    if (tockenType(tockens.at(i + 1)) == "lbracket" && tockenType(tockens.at(i + 3)) == "rbracket") {
+                        if (i + 2 < transformedVector.size() && transformedVector.at(i + 2) != NULL) {
+                            FunctionElement fe;
+                            fe.addArgument(transformedVector.at(i + 2));
+                            ExponentialFunctionElement *ef = new ExponentialFunctionElement(fe);
+                            transformedVector.at(i) = ef;
+
+                            transformedVector.erase(transformedVector.begin() + i + 1, transformedVector.begin() + i + 4);
+                            tockens.erase(tockens.begin() + i + 1, tockens.begin() + i + 4);
+                        }
+                    }
+                }
+            }
+        }
+
         //pass three //cos and sin
         for (unsigned int i = 0; i < tockens.size(); i++) { //cos
             if (tockenType(tockens.at(i)) == "cos") {
@@ -1592,6 +1683,7 @@ void FormulaElement::printTockens(vector<string> tockens, vector<FormulaElement*
 }
 
 } //end of package
+
 
 
 #endif // FORMULATOR_H
