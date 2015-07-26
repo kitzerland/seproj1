@@ -18,18 +18,18 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>10</width>
-    <height>10</height>
+    <width>271</width>
+    <height>529</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>986</width>
-    <height>610</height>
+    <width>271</width>
+    <height>529</height>
    </size>
   </property>
   <property name="windowTitle">
-   <string>Graphs</string>
+   <string>Graph Formulas</string>
   </property>
   <property name="styleSheet">
    <string notr="true">QDialog
