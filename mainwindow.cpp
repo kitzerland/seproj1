@@ -222,14 +222,52 @@ void MainWindow::on_pushButton_Tenp_clicked()
     value = value + "10^";
     ui->lineEdit->setText(value);
 }
+
 using namespace Formulator;
 void MainWindow::on_pushButton_Equals_clicked()
 {
-    QString str = value;
-    str.replace(QString("÷"), QString("/"));
-    FormulaElement *fe = fe->parseFormula(str.toStdString());
-    ui->lineEdit_2->setText(value);
-    ui->lineEdit->setText(QString::fromStdString(fe->toString()));
+    try{
+        QString str = value;
+        str.replace(QString("÷"), QString("/"));
+        FormulaElement *fe = fe->parseFormula(str.toStdString());
+
+
+        if(xxx > 0)fe->setVariableValue("X", xxx);
+        if(yyy > 0)fe->setVariableValue("Y", yyy);
+        if(zzz > 0)fe->setVariableValue("Z", zzz);
+
+        if(xyzFlag){
+
+            QString xString = QString::number(xxx);
+            QString yString = QString::number(yyy);
+            QString zString = QString::number(zzz);
+            QString xyzInfo = "";
+            if(xxx > 0 || yyy > 0 || zzz > 0)xyzInfo += "[ ";
+            if(xxx > 0)xyzInfo += "X = " + xString + "";
+            if(xxx > 0 && (yyy > 0 || zzz > 0))xyzInfo += ", ";
+            if(yyy > 0)xyzInfo += "Y = " + yString + "";
+            if(yyy > 0 && zzz > 0)xyzInfo += ", ";
+            if(zzz > 0)xyzInfo += "Z = " + zString + "";
+            if(xxx > 0 || yyy > 0 || zzz > 0)xyzInfo += "]";
+
+            if(fe->isFullyGrounded()){
+                ui->lineEdit_2->setText(value + xyzInfo);
+                QString evaluatedAnswer = QString::number(fe->evaluate());
+                ui->lineEdit->setText(evaluatedAnswer);
+            }else{
+                ui->lineEdit_2->setText(value);
+                ui->lineEdit->setText(QString::fromStdString(fe->toString()));
+            }
+
+
+        }else{
+            ui->lineEdit_2->setText(value);
+            ui->lineEdit->setText(QString::fromStdString(fe->toString()));
+        }
+    }catch(exception e){
+
+    }
+
     value = "";
 }
 
@@ -246,4 +284,22 @@ void MainWindow::on_pushButton_Up_clicked()
     xyzFlag = 0;
     QString mys = QString::number(xxx);
     ui->lineEdit->setText(mys);
+}
+
+void MainWindow::on_pushButton_X_clicked()
+{
+    value = value + "X";
+    ui->lineEdit->setText(value);
+}
+
+void MainWindow::on_pushButton_Y_clicked()
+{
+    value = value + "Y";
+    ui->lineEdit->setText(value);
+}
+
+void MainWindow::on_pushButton_Z_clicked()
+{
+    value = value + "Z";
+    ui->lineEdit->setText(value);
 }
