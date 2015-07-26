@@ -17,18 +17,26 @@ SOURCES += main.cpp\
     dialog.cpp \
     qcustomplot.cpp \
     xyz.cpp \
-    graphwindow.cpp
+    graphwindow.cpp \
+    savedialog.cpp \
+    loaddialog.cpp
 
 HEADERS  += mainwindow.h \
     dialog.h \
     qcustomplot.h \
     xyz.h \
-    graphwindow.h
+    graphwindow.h \
+    fileio.h \
+    savedialog.h \
+    loaddialog.h \
+    formulator.h
 
 FORMS    += mainwindow.ui \
     dialog.ui \
     xyz.ui \
-    graphwindow.ui
+    graphwindow.ui \
+    savedialog.ui \
+    loaddialog.ui
 
 
 RESOURCES += \
