@@ -11,7 +11,6 @@
 #include <cstring>
 using namespace std;
 
-
 //package Formulator
 namespace Formulator {
 
@@ -72,12 +71,12 @@ public:
                         i = i + 2;
                     }
                 }
-                if(i + 1 < text.length()){
+                if (i + 1 < text.length()) {
                     stringstream ss;
                     string s;
                     ss << text[i] << text[i + 1];
                     ss >> s;
-                    if(s == "pi"){
+                    if (s == "pi") {
                         charset = s;
                         i = i + 1;
                     }
@@ -123,6 +122,8 @@ public:
             return false;
         } else if (text == "pi") {
             return false;
+        } else if (text == "!") {
+            return false;
         } else if (text == "+") {
             return false;
         } else if (text == "-") {
@@ -160,6 +161,8 @@ public:
             return "log";
         } else if (text == "pi") {
             return "pi";
+        } else if (text == "!") {
+            return "factorial";
         } else if (text == "+") {
             return "plus";
         } else if (text == "-") {
@@ -297,6 +300,80 @@ public:
         }
         return true;
     }
+};
+
+class FactorialFunctionElement: public FunctionElement {
+    FunctionElement fe;
+public:
+    FactorialFunctionElement(FunctionElement arguments) {
+        fe = arguments;
+        isOperator = 1;
+        isConstant = 0;
+        isVariable = 0;
+    }
+
+    double getFactorial(double n) {
+        if (n <= 1)
+            return 1;
+        else
+            return n * getFactorial(n - 1);
+    }
+
+    string toString() {
+        stringstream stream;
+        string str;
+
+        FormulaElement *arg = fe.getArguments().at(0);
+
+        if (arg->isOperator) {
+            string s = arg->toString();
+            double n = atof(s.c_str()); //returns 0 if it is not a double
+
+            if (s == "0") { //argument can be 0
+                stream << getFactorial(n);
+            } else {
+                if (isDouble(s)) { //argument can be a double value
+                    stream << getFactorial(n);
+                } else { //or it can be a string
+                    if (s.find("(") != string::npos && s.find("(") == 0) { // if argument already contains one '(' parentheses in the FRONT, there is no need to put them again
+                        stream << s << "!";
+                    } else {
+                        stream << s << "!";
+                    }
+                }
+            }
+        } else {
+            if (arg->isConstant) {
+                stream << getFactorial(arg->get());
+            } else {
+                stream << arg->toString() << "!";
+            }
+        }
+
+        stream >> str;
+        //		cout << str << endl << endl;
+        return str;
+    }
+
+    void setVariableValue(string varName, double value) {
+        for (unsigned int i = 0; i < fe.getArguments().size(); i++) {
+            fe.getArguments().at(i)->setVariableValue(varName, value);
+        }
+    }
+
+    bool isFullyGrounded() {
+        for (unsigned int i = 0; i < fe.getArguments().size(); i++) {
+            if (!fe.getArguments().at(i)->isFullyGrounded()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    double evaluate() {
+        return getFactorial(fe.getArguments().at(0)->evaluate());
+    }
+
 };
 
 //child class PlusFunctionElement of parent FunctionElement
@@ -1010,7 +1087,7 @@ class PiFunctionElement: public FunctionElement {
 
 public:
     PiFunctionElement() {
-        isOperator = 1;//this must be categorized as an operator because there is no get method implemented inside this class
+        isOperator = 1; //this must be categorized as an operator because there is no get method implemented inside this class
         isConstant = 0;
         isVariable = 0;
     }
@@ -1084,6 +1161,24 @@ FormulaElement* FormulaElement::parseFormula(string text) {
 
     for (unsigned int formulaElements = 0; formulaElements < tockens.size();
             formulaElements++) { //recursively iterating the process until the formula is fully parsed
+
+        for (unsigned int i = 0; i < tockens.size(); i++) {
+            if (tockenType(tockens.at(i)) == "factorial") {
+
+                if ((int) (i - 1) >= 0 && i < transformedVector.size()) {
+                    if (transformedVector.at(i - 1) != NULL) {
+                        FunctionElement fe;
+                        fe.addArgument(transformedVector.at(i - 1));
+
+                        FactorialFunctionElement *fct = new FactorialFunctionElement(fe);
+                        transformedVector.at(i - 1) = fct;
+
+                        transformedVector.erase(transformedVector.begin() + i); // removing operator
+                        tockens.erase(tockens.begin() + i);
+                    }
+                }
+            }
+        }
 
         //pass four //powerFunctionElement
         for (unsigned int i = 0; i < tockens.size(); i++) {

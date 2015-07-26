@@ -183,7 +183,7 @@ void MainWindow::on_pushButton_Tan_clicked()
 
 void MainWindow::on_pushButton_X1_clicked()
 {
-    value = value + "X!";
+    value = value + "!";
     ui->lineEdit->setText(value);
 }
 
