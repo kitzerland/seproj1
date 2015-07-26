@@ -12,6 +12,7 @@ class GraphWindow : public QDialog
     Q_OBJECT
 
 public:
+    void setFormulaString(QString);
     explicit GraphWindow(QWidget *parent = 0);
     ~GraphWindow();
 

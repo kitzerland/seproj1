@@ -47,16 +47,6 @@ background-image: url(:/back/Background.jpg);
     </rect>
    </property>
   </widget>
-  <widget class="QTextEdit" name="textEdit_Plot">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>430</y>
-     <width>231</width>
-     <height>31</height>
-    </rect>
-   </property>
-  </widget>
   <widget class="QPushButton" name="pushButton_delete">
    <property name="geometry">
     <rect>
@@ -247,8 +237,35 @@ background-image: url(:/back/Background.jpg);
     <string>Formula</string>
    </property>
   </widget>
+  <widget class="QLabel" name="label_3">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>438</y>
+     <width>31</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Y =</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEdit_plot">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>430</y>
+     <width>201</width>
+     <height>31</height>
+    </rect>
+   </property>
+  </widget>
   <zorder>textEdit_FormulaName</zorder>
-  <zorder>textEdit_Plot</zorder>
   <zorder>pushButton_delete</zorder>
   <zorder>pushButton_Edit</zorder>
   <zorder>pushButton_Save</zorder>
@@ -259,6 +276,8 @@ background-image: url(:/back/Background.jpg);
   <zorder>label</zorder>
   <zorder>label_2</zorder>
   <zorder>pushButton_Clear</zorder>
+  <zorder>label_3</zorder>
+  <zorder>lineEdit_plot</zorder>
  </widget>
  <resources/>
  <connections/>

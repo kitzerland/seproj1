@@ -28,7 +28,7 @@ public:
     virtual string toString() {
         return "";
     }
-    static FormulaElement* parseFormula(string); //implemented below classes
+    inline FormulaElement* parseFormula(string); //implemented below classes
 
     virtual void setVariableValue(string varName, double value) {
         //redefined in sub classes
@@ -41,7 +41,7 @@ public:
         return 0;
     }
 
-    static void printTockens(vector<string>, vector<FormulaElement*>); //this method is created for testing purposes only
+    inline void printTockens(vector<string>, vector<FormulaElement*>); //this method is created for testing purposes only
 
     static double isDouble(const std::string & s) {
         if (s.empty() || ((!isdigit(s[0])) && (s[0] != '-') && (s[0] != '+')))
@@ -1262,7 +1262,7 @@ public:
     }
 };
 
-FormulaElement* FormulaElement::parseFormula(string text) {
+inline FormulaElement* FormulaElement::parseFormula(string text) {
     vector<string> tockens = createTockens(text);
 
 //	cout << endl << endl;

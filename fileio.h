@@ -1,13 +1,15 @@
 #ifndef FILEIO
 #define FILEIO
 
-namespace FileIO{
 #include <iostream>
 #include <fstream>
 #include <string>
 #include "vector"
 
 using namespace std;
+
+namespace FileIO{
+
 
 void createFile (){
     try {
@@ -23,9 +25,7 @@ void createFile (){
 
 }
 
-void write(){
-
-    string outputText = "Hello";
+void write(string outputText){
 
     try {
         fstream outFile;

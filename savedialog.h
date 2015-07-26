@@ -13,10 +13,14 @@ class SaveDialog : public QDialog
 
 public:
     explicit SaveDialog(QWidget *parent = 0);
+    void setFormula(QString);
+    void fillXYZ(double, double, double);
     ~SaveDialog();
 
 private slots:
     void on_pushButton_Cancel_clicked();
+
+    void on_pushButton_Ok_clicked();
 
 private:
     Ui::SaveDialog *ui;

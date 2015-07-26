@@ -46,6 +46,7 @@ void MainWindow::setXYZ(double a,double b, double c){
 
 
 
+
 // Codes below help to add charactors to Qstring ..
 void MainWindow::on_pushButton_0_clicked()
 {
@@ -341,5 +342,7 @@ void MainWindow::on_pushButton_Save_clicked()
 {
     SaveDialog save;
     save.setModal(true);
+    save.setFormula(ui->lineEdit->text());
+    save.fillXYZ(xxx,yyy,zzz);
     save.exec();
 }
