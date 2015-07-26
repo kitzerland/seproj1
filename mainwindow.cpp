@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include "dialog.h"
 #include "xyz.h"
+#include "formulator.h"
 
 double xxx = 0;double yyy = 0;double zzz=0;
 bool xyzFlag = 0;
@@ -123,7 +124,7 @@ void MainWindow::on_pushButton_Subtract_clicked()
 
 void MainWindow::on_pushButton_multiply_clicked()
 {
-    value = value + "×";
+    value = value + "x";
     ui->lineEdit->setText(value);
 }
 
@@ -146,6 +147,7 @@ void MainWindow::on_pushButton_AC_clicked()
     temp = value;
     value = "";
     ui->lineEdit->setText(value);
+    ui->lineEdit_2->setText(value);
 }
 
 void MainWindow::on_pushButton_LBracket_clicked()
@@ -220,11 +222,14 @@ void MainWindow::on_pushButton_Tenp_clicked()
     value = value + "10^";
     ui->lineEdit->setText(value);
 }
-
+using namespace Formulator;
 void MainWindow::on_pushButton_Equals_clicked()
 {
-    ui->lineEdit->setText("Answer is here !!!!");
+    QString str = value;
+    str.replace(QString("÷"), QString("/"));
+    FormulaElement *fe = fe->parseFormula(str.toStdString());
     ui->lineEdit_2->setText(value);
+    ui->lineEdit->setText(QString::fromStdString(fe->toString()));
     value = "";
 }
 
