@@ -61,6 +61,16 @@ public:
             string charset = "";
             charset = text[i];
             if (text[i] == 's' || text[i] == 'c' || text[i] == 't' || text[i] == 'l' || text[i] == 'p' || text[i] == 'e') {
+                if (i + 3 < text.length()) {
+                    stringstream ss;
+                    string s;
+                    ss << text[i] << text[i + 1] << text[i + 2] << text[i + 3];
+                    ss >> s;
+                    if (s == "sqrt") {
+                        charset = s;
+                        i = i + 3;
+                    }
+                }
                 if (i + 2 < text.length()) {
                     stringstream ss;
                     string s;
@@ -124,6 +134,8 @@ public:
             return false;
         } else if (text == "pi") {
             return false;
+        } else if (text == "sqrt") {
+            return false;
         } else if (text == "!") {
             return false;
         } else if (text == "+") {
@@ -167,6 +179,8 @@ public:
             return "pi";
         } else if (text == "!") {
             return "factorial";
+        } else if (text == "sqrt") {
+            return "sqrt";
         } else if (text == "+") {
             return "plus";
         } else if (text == "-") {
@@ -1007,6 +1021,71 @@ public:
     }
 };
 
+class RootFunctionElement: public FunctionElement {
+    FunctionElement fe;
+public:
+    RootFunctionElement(FunctionElement argument) {
+        isOperator = 1;
+        isConstant = 0;
+        isVariable = 0;
+        fe = argument;
+    }
+    string toString() {
+        stringstream stream;
+        string str;
+
+        FormulaElement *arg = fe.getArguments().at(0);
+
+        if (arg->isOperator) {
+            string s = arg->toString();
+            double n = atof(s.c_str()); //returns 0 if it is not a double
+
+            if (s == "0") { //argument can be 0
+                stream << sqrt(n);
+            } else {
+                if (isDouble(s)) { //argument can be a double value
+                    stream << sqrt(n);
+                } else { //or it can be a string
+                    if (s.find("(") != string::npos && s.find("(") == 0) { // if argument already contains one '(' parentheses in the FRONT, there is no need to put them again
+                        stream << "sqrt" << s;
+                    } else {
+                        stream << "sqrt(" << s << ")";
+                    }
+                }
+            }
+        } else {
+            if (arg->isConstant) {
+                stream << sqrt(arg->get());
+            } else {
+                stream << "sqrt(" << arg->toString() << ")";
+            }
+        }
+
+        stream >> str;
+        //		cout << str << endl << endl;
+        return str;
+    }
+
+    void setVariableValue(string varName, double value) {
+        for (unsigned int i = 0; i < fe.getArguments().size(); i++) {
+            fe.getArguments().at(i)->setVariableValue(varName, value);
+        }
+    }
+
+    bool isFullyGrounded() {
+        for (unsigned int i = 0; i < fe.getArguments().size(); i++) {
+            if (!fe.getArguments().at(i)->isFullyGrounded()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    double evaluate() {
+        return sqrt(fe.getArguments().at(0)->evaluate());
+    }
+};
+
 class PowerFunctionElement: public FunctionElement {
     FunctionElement fe;
 public:
@@ -1306,6 +1385,24 @@ FormulaElement* FormulaElement::parseFormula(string text) {
                             fe.addArgument(transformedVector.at(i + 2));
                             ExponentialFunctionElement *ef = new ExponentialFunctionElement(fe);
                             transformedVector.at(i) = ef;
+
+                            transformedVector.erase(transformedVector.begin() + i + 1, transformedVector.begin() + i + 4);
+                            tockens.erase(tockens.begin() + i + 1, tockens.begin() + i + 4);
+                        }
+                    }
+                }
+            }
+        }
+
+        for (unsigned int i = 0; i < tockens.size(); i++) { //cos
+            if (tockenType(tockens.at(i)) == "sqrt") {
+                if (i + 3 < tockens.size()) {
+                    if (tockenType(tockens.at(i + 1)) == "lbracket" && tockenType(tockens.at(i + 3)) == "rbracket") {
+                        if (i + 2 < transformedVector.size() && transformedVector.at(i + 2) != NULL) {
+                            FunctionElement fe;
+                            fe.addArgument(transformedVector.at(i + 2));
+                            RootFunctionElement *re = new RootFunctionElement(fe);
+                            transformedVector.at(i) = re;
 
                             transformedVector.erase(transformedVector.begin() + i + 1, transformedVector.begin() + i + 4);
                             tockens.erase(tockens.begin() + i + 1, tockens.begin() + i + 4);
@@ -1683,7 +1780,6 @@ void FormulaElement::printTockens(vector<string> tockens, vector<FormulaElement*
 }
 
 } //end of package
-
 
 
 #endif // FORMULATOR_H

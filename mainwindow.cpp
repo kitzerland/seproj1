@@ -210,7 +210,7 @@ void MainWindow::on_pushButton_X2_clicked()
 
 void MainWindow::on_pushButton_Squre_clicked()
 {
-    value = value + "√";
+    value = value + "sqrt(";
     ui->lineEdit->setText(value);
 }
 
