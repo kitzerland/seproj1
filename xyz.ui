@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>XYZ</string>
   </property>
   <property name="styleSheet">
    <string notr="true">QDialog
@@ -25,8 +25,14 @@ background-image: url(:/back/Background.jpg);
      <x>10</x>
      <y>200</y>
      <width>75</width>
-     <height>23</height>
+     <height>31</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color:white;
+border-radius:5px;
+background-image: url(:/back/Button2.jpg);
+</string>
    </property>
    <property name="text">
     <string>Ok</string>
@@ -38,8 +44,14 @@ background-image: url(:/back/Background.jpg);
      <x>90</x>
      <y>200</y>
      <width>75</width>
-     <height>23</height>
+     <height>31</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color:white;
+border-radius:5px;
+background-image: url(:/back/Button2.jpg);
+</string>
    </property>
    <property name="text">
     <string>Cancel</string>
@@ -151,16 +163,6 @@ background-image: url(:/back/Background.jpg);
     <string>X -</string>
    </property>
   </widget>
-  <zorder>pushButton_Ok</zorder>
-  <zorder>pushButton_Cancel</zorder>
-  <zorder>lineEdit</zorder>
-  <zorder>lineEdit_2</zorder>
-  <zorder>lineEdit_3</zorder>
-  <zorder>label</zorder>
-  <zorder>label_2</zorder>
-  <zorder>label_3</zorder>
-  <zorder>label_4</zorder>
-  <zorder>label</zorder>
  </widget>
  <resources/>
  <connections/>

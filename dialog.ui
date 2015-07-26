@@ -29,7 +29,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Graphs</string>
   </property>
   <property name="styleSheet">
    <string notr="true">QDialog
@@ -82,6 +82,12 @@ background-image: url(:/back/Background.jpg);
      <pointsize>10</pointsize>
     </font>
    </property>
+   <property name="styleSheet">
+    <string notr="true">color:white;
+border-radius:5px;
+background-image: url(:/back/Button2.jpg);
+</string>
+   </property>
    <property name="text">
     <string>Delete</string>
    </property>
@@ -100,6 +106,12 @@ background-image: url(:/back/Background.jpg);
      <family>Arial</family>
      <pointsize>10</pointsize>
     </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color:white;
+border-radius:5px;
+background-image: url(:/back/Button2.jpg);
+</string>
    </property>
    <property name="text">
     <string>Edit</string>
@@ -120,6 +132,12 @@ background-image: url(:/back/Background.jpg);
      <pointsize>10</pointsize>
     </font>
    </property>
+   <property name="styleSheet">
+    <string notr="true">color:white;
+border-radius:5px;
+background-image: url(:/back/Button2.jpg);
+</string>
+   </property>
    <property name="text">
     <string>Save</string>
    </property>
@@ -138,6 +156,12 @@ background-image: url(:/back/Background.jpg);
      <family>Arial</family>
      <pointsize>10</pointsize>
     </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color:white;
+border-radius:5px;
+background-image: url(:/back/Button2.jpg);
+</string>
    </property>
    <property name="text">
     <string>Clear</string>
@@ -161,7 +185,10 @@ background-image: url(:/back/Background.jpg);
     </font>
    </property>
    <property name="styleSheet">
-    <string notr="true">color:green;</string>
+    <string notr="true">color:white;
+border-radius:5px;
+background-image: url(:/back/Button2.jpg);
+</string>
    </property>
    <property name="text">
     <string>Plot Graph</string>
@@ -181,6 +208,12 @@ background-image: url(:/back/Background.jpg);
      <family>Arial</family>
      <pointsize>10</pointsize>
     </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color:white;
+border-radius:5px;
+background-image: url(:/back/Button2.jpg);
+</string>
    </property>
    <property name="text">
     <string>Clear</string>
