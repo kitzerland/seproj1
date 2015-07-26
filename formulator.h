@@ -12,6 +12,7 @@
 using namespace std;
 
 
+//package Formulator
 namespace Formulator {
 
 //parent class FormulaElement
@@ -60,15 +61,25 @@ public:
             stringstream holderss;
             string charset = "";
             charset = text[i];
-            if (text[i] == 's' || text[i] == 'c') {
+            if (text[i] == 's' || text[i] == 'c' || text[i] == 't' || text[i] == 'l' || text[i] == 'p') {
                 if (i + 2 < text.length()) {
                     stringstream ss;
                     string s;
                     ss << text[i] << text[i + 1] << text[i + 2];
                     ss >> s;
-                    if (s == "sin" || s == "cos") {
+                    if (s == "sin" || s == "cos" || s == "tan" || s == "log") {
                         charset = s;
                         i = i + 2;
+                    }
+                }
+                if(i + 1 < text.length()){
+                    stringstream ss;
+                    string s;
+                    ss << text[i] << text[i + 1];
+                    ss >> s;
+                    if(s == "pi"){
+                        charset = s;
+                        i = i + 1;
                     }
                 }
             }
@@ -106,6 +117,12 @@ public:
             return false;
         } else if (text == "cos") {
             return false;
+        } else if (text == "tan") {
+            return false;
+        } else if (text == "log") {
+            return false;
+        } else if (text == "pi") {
+            return false;
         } else if (text == "+") {
             return false;
         } else if (text == "-") {
@@ -114,9 +131,11 @@ public:
             return false;
         } else if (text == "*") {
             return false;
-        }else if(text == "x"){
+        } else if (text == "x") {
             return false;
         } else if (text == "^") {
+            return false;
+        } else if (text == "%") {
             return false;
         } else if (text == "(") {
             return false;
@@ -135,6 +154,12 @@ public:
             return "sin";
         } else if (text == "cos") {
             return "cos";
+        } else if (text == "tan") {
+            return "tan";
+        } else if (text == "log") {
+            return "log";
+        } else if (text == "pi") {
+            return "pi";
         } else if (text == "+") {
             return "plus";
         } else if (text == "-") {
@@ -143,10 +168,12 @@ public:
             return "divide";
         } else if (text == "*") {
             return "multiply";
-        }else if(text == "x"){
+        } else if (text == "x") {
             return "multiply";
         } else if (text == "^") {
             return "power";
+        } else if (text == "%") {
+            return "modulus";
         } else if (text == "(") {
             return "lbracket";
         } else if (text == ")") {
@@ -696,6 +723,140 @@ public:
     }
 };
 
+class TanFunctionElement: public FunctionElement {
+    FunctionElement fe;
+public:
+    TanFunctionElement(FunctionElement argument) {
+        isOperator = 1;
+        isConstant = 0;
+        isVariable = 0;
+        fe = argument;
+    }
+    string toString() {
+        stringstream stream;
+        string str;
+
+        FormulaElement *arg = fe.getArguments().at(0);
+
+        if (arg->isOperator) {
+
+            string s = arg->toString();
+            double n = atof(s.c_str()); //returns 0 if it is not a double
+
+            if (s == "0") { //argument can be 0
+                stream << tan(n);
+            } else {
+                if (isDouble(s)) { //argument can be a double
+                    stream << tan(n);
+                } else { //or it can be a string
+                    if (s.find("(") != string::npos && s.find("(") == 0) { // if argument contains one '(' parentheses in the FRONT, there is no need to put them again
+                        stream << "tan" << s << "";
+                    } else {
+                        stream << "tan(" << s << ")";
+                    }
+                }
+            }
+
+        } else {
+            if (arg->isConstant) {
+                stream << tan(arg->get());
+            } else {
+                stream << "tan(" << arg->toString() << ")";
+            }
+        }
+
+        stream >> str;
+//		cout << str << endl << endl;
+        return str;
+    }
+
+    void setVariableValue(string varName, double value) {
+        for (unsigned int i = 0; i < fe.getArguments().size(); i++) {
+            fe.getArguments().at(i)->setVariableValue(varName, value);
+        }
+    }
+
+    bool isFullyGrounded() {
+        for (unsigned int i = 0; i < fe.getArguments().size(); i++) {
+            if (!fe.getArguments().at(i)->isFullyGrounded()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    double evaluate() {
+        return tan(fe.getArguments().at(0)->evaluate());
+    }
+};
+
+class LogFunctionElement: public FunctionElement {
+    FunctionElement fe;
+public:
+    LogFunctionElement(FunctionElement argument) {
+        isOperator = 1;
+        isConstant = 0;
+        isVariable = 0;
+        fe = argument;
+    }
+    string toString() {
+        stringstream stream;
+        string str;
+
+        FormulaElement *arg = fe.getArguments().at(0);
+
+        if (arg->isOperator) {
+
+            string s = arg->toString();
+            double n = atof(s.c_str()); //returns 0 if it is not a double
+
+            if (s == "0") { //argument can be 0
+                stream << log10(n);
+            } else {
+                if (isDouble(s)) { //argument can be a double
+                    stream << log10(n);
+                } else { //or it can be a string
+                    if (s.find("(") != string::npos && s.find("(") == 0) { // if argument contains one '(' parentheses in the FRONT, there is no need to put them again
+                        stream << "log" << s << "";
+                    } else {
+                        stream << "log(" << s << ")";
+                    }
+                }
+            }
+
+        } else {
+            if (arg->isConstant) {
+                stream << log10(arg->get());
+            } else {
+                stream << "log(" << arg->toString() << ")";
+            }
+        }
+
+        stream >> str;
+//		cout << str << endl << endl;
+        return str;
+    }
+
+    void setVariableValue(string varName, double value) {
+        for (unsigned int i = 0; i < fe.getArguments().size(); i++) {
+            fe.getArguments().at(i)->setVariableValue(varName, value);
+        }
+    }
+
+    bool isFullyGrounded() {
+        for (unsigned int i = 0; i < fe.getArguments().size(); i++) {
+            if (!fe.getArguments().at(i)->isFullyGrounded()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    double evaluate() {
+        return log10(fe.getArguments().at(0)->evaluate());
+    }
+};
+
 class PowerFunctionElement: public FunctionElement {
     FunctionElement fe;
 public:
@@ -776,6 +937,102 @@ public:
     }
 };
 
+class ModulusFunctionElement: public FunctionElement {
+    FunctionElement fe;
+public:
+    ModulusFunctionElement(FunctionElement arguments) {
+        isOperator = 1;
+        isConstant = 0;
+        isVariable = 0;
+        fe = arguments;
+    }
+    string toString() {
+
+        stringstream stream;
+        string str;
+
+        FormulaElement *leftArg = fe.getArguments().at(0);
+        FormulaElement *rightArg = fe.getArguments().at(1);
+
+        string ls = leftArg->toString();
+        string rs = rightArg->toString();
+        double ln = atof(ls.c_str()); //returns 0 if it is not a double
+        double rn = atof(rs.c_str());
+
+        if (leftArg->isOperator || rightArg->isOperator) {
+
+            if (ls == "0" || rs == "0") {
+                stream << 0;
+            } else {
+                if (isDouble(ls) && isDouble(rs)) { // both can be a double
+                    stream << (ln * rn) / 100; //so numbers should be computed to get the result
+                } else { //one or both can be a string
+                    stream << rn << "%";
+                }
+            }
+        } else {
+            if (leftArg->isConstant && rightArg->isConstant) {
+                stream << (leftArg->get() * rightArg->get()) / 100;
+            } else {
+                if (ls == "0" || rs == "0") {
+                    stream << 0;
+                } else {
+                    stream << rightArg->toString() << "%";
+                }
+            }
+        }
+
+        stream >> str;
+        //		cout << str << endl << endl;
+        return str;
+    }
+
+    void setVariableValue(string varName, double value) {
+        for (unsigned int i = 0; i < fe.getArguments().size(); i++) {
+            fe.getArguments().at(i)->setVariableValue(varName, value);
+        }
+    }
+
+    bool isFullyGrounded() {
+        for (unsigned int i = 0; i < fe.getArguments().size(); i++) {
+            if (!fe.getArguments().at(i)->isFullyGrounded()) {
+                return false;
+            }
+        }
+        return true;
+    }
+    double evaluate() {
+        return fe.getArguments().at(0)->evaluate() * fe.getArguments().at(1)->evaluate() / 100;
+    }
+};
+
+class PiFunctionElement: public FunctionElement {
+
+public:
+    PiFunctionElement() {
+        isOperator = 1;//this must be categorized as an operator because there is no get method implemented inside this class
+        isConstant = 0;
+        isVariable = 0;
+    }
+    string toString() {
+        stringstream stream;
+        string str;
+        stream << M_PI;
+        stream >> str;
+        return str;
+    }
+
+    void setVariableValue(string varName, double value) {
+        //nothing to implement
+    }
+    bool isFullyGrounded() {
+        return true;
+    }
+    double evaluate() {
+        return M_PI;
+    }
+};
+
 FormulaElement* FormulaElement::parseFormula(string text) {
     vector<string> tockens = createTockens(text);
 
@@ -800,7 +1057,14 @@ FormulaElement* FormulaElement::parseFormula(string text) {
         }
     }
 
-//    printTockens(tockens, transformedVector);
+    for (unsigned int i = 0; i < tockens.size(); i++) {
+        if (tockenType(tockens.at(i)) == "pi") {
+            PiFunctionElement *pi = new PiFunctionElement();
+            transformedVector.at(i) = pi;
+        }
+    }
+
+//	printTockens(tockens, transformedVector);
 
     //pass two //MultipleFunctionElement for Compound elements
     for (unsigned int i = 0; i < tockens.size(); i++) {
@@ -832,7 +1096,7 @@ FormulaElement* FormulaElement::parseFormula(string text) {
                         fe.addArgument(transformedVector.at(i + 1));
 
                         PowerFunctionElement *pe = new PowerFunctionElement(fe);
-                        transformedVector.at(i-1) = pe;
+                        transformedVector.at(i - 1) = pe;
 
                         transformedVector.erase(transformedVector.begin() + i); // removing operator
                         tockens.erase(tockens.begin() + i);
@@ -843,6 +1107,27 @@ FormulaElement* FormulaElement::parseFormula(string text) {
                 }
             }
         }
+
+        for (unsigned int i = 0; i < tockens.size(); i++) {
+            if (tockenType(tockens.at(i)) == "modulus") {
+                // 72+5%
+                if ((int) (i - 3) >= 0 && i < transformedVector.size()) {
+                    if (transformedVector.at(i - 1) != NULL && transformedVector.at(i - 3) != NULL && !isConstantORVariable(tockens.at(i - 2))) {
+                        FunctionElement fe;
+                        fe.addArgument(transformedVector.at(i - 3));
+                        fe.addArgument(transformedVector.at(i - 1));
+
+                        ModulusFunctionElement *me = new ModulusFunctionElement(fe);
+                        transformedVector.at(i - 1) = me;
+
+                        transformedVector.erase(transformedVector.begin() + i); // removing operator (%)
+                        tockens.erase(tockens.begin() + i);
+                    }
+                }
+            }
+        }
+
+//		printTockens(tockens, transformedVector);
 
         //pass three //cos and sin
         for (unsigned int i = 0; i < tockens.size(); i++) { //cos
@@ -886,6 +1171,46 @@ FormulaElement* FormulaElement::parseFormula(string text) {
                 }
             }
         }
+
+        for (unsigned int i = 0; i < tockens.size(); i++) { //sin
+            if (tockenType(tockens.at(i)) == "tan") {
+                if (i + 3 < tockens.size()) {
+                    if (tockenType(tockens.at(i + 1)) == "lbracket" && tockenType(tockens.at(i + 3)) == "rbracket") {
+                        if (i + 2 < transformedVector.size() && transformedVector.at(i + 2) != NULL) {
+                            FunctionElement fe;
+                            fe.addArgument(transformedVector.at(i + 2));
+                            TanFunctionElement *ce = new TanFunctionElement(fe);
+                            transformedVector.at(i) = ce;
+
+                            transformedVector.erase(transformedVector.begin() + i + 1, transformedVector.begin() + i + 4);
+                            tockens.erase(tockens.begin() + i + 1, tockens.begin() + i + 4);
+                        }
+                    }
+
+                }
+            }
+        }
+
+        for (unsigned int i = 0; i < tockens.size(); i++) { //log
+            if (tockenType(tockens.at(i)) == "log") {
+                if (i + 3 < tockens.size()) {
+                    if (tockenType(tockens.at(i + 1)) == "lbracket" && tockenType(tockens.at(i + 3)) == "rbracket") {
+                        if (i + 2 < transformedVector.size() && transformedVector.at(i + 2) != NULL) {
+                            FunctionElement fe;
+                            fe.addArgument(transformedVector.at(i + 2));
+                            LogFunctionElement *le = new LogFunctionElement(fe);
+                            transformedVector.at(i) = le;
+
+                            transformedVector.erase(transformedVector.begin() + i + 1, transformedVector.begin() + i + 4);
+                            tockens.erase(tockens.begin() + i + 1, tockens.begin() + i + 4);
+                        }
+                    }
+
+                }
+            }
+        }
+
+//		printTockens(tockens, transformedVector);
 
         //pass five //divide and multiplication
         for (unsigned int i = 0; i < tockens.size(); i++) {
@@ -941,7 +1266,7 @@ FormulaElement* FormulaElement::parseFormula(string text) {
                 }
             }
         }
-//		printTockens(tockens, transformedVector);
+
         //multiply elements like X(anything)
         for (unsigned int i = 0; i < tockens.size(); i++) {
             if ((int) (i - 1) >= 0 && i + 2 < tockens.size()) {
@@ -1163,6 +1488,11 @@ void FormulaElement::printTockens(vector<string> tockens, vector<FormulaElement*
             cout << i << ": " << transformedVector.at(i)->toString() << endl;
         }
     }
+    cout << endl;
+
+    cout << "TOCKENS SIZE : " << tockens.size() << endl;
+    cout << "VECTOR SIZE : " << transformedVector.size() << endl;
+
     cout << endl;
 }
 

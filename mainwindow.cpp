@@ -170,14 +170,14 @@ void MainWindow::on_pushButton_Pi_clicked()
 
 void MainWindow::on_pushButton_Log_clicked()
 {
-    value = value + "log";
+    value = value + "log(";
     ui->lineEdit->setText(value);
 }
 
 
 void MainWindow::on_pushButton_Tan_clicked()
 {
-    value = value + "tan";
+    value = value + "tan(";
     ui->lineEdit->setText(value);
 }
 
@@ -195,7 +195,7 @@ void MainWindow::on_pushButton_Power_clicked()
 
 void MainWindow::on_pushButton_Cos_clicked()
 {
-    value = value + "cos";
+    value = value + "cos(";
     ui->lineEdit->setText(value);
 }
 
@@ -213,7 +213,7 @@ void MainWindow::on_pushButton_Squre_clicked()
 
 void MainWindow::on_pushButton_Sin_clicked()
 {
-    value = value + "sin";
+    value = value + "sin(";
     ui->lineEdit->setText(value);
 }
 
@@ -229,6 +229,8 @@ void MainWindow::on_pushButton_Equals_clicked()
     try{
         QString str = value;
         str.replace(QString("÷"), QString("/"));
+        str.replace(QString("π"), QString("pi"));
+        cout << "STRING : " << str.toStdString() << endl;
         FormulaElement *fe = fe->parseFormula(str.toStdString());
 
 
@@ -301,5 +303,11 @@ void MainWindow::on_pushButton_Y_clicked()
 void MainWindow::on_pushButton_Z_clicked()
 {
     value = value + "Z";
+    ui->lineEdit->setText(value);
+}
+
+void MainWindow::on_pushButton_ToH_clicked()
+{
+    value = value + "%";
     ui->lineEdit->setText(value);
 }
