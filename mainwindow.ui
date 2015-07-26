@@ -917,7 +917,7 @@ background-image: url(:/back/Background.jpg);
      <string notr="true"/>
     </property>
     <property name="text">
-     <string>X!</string>
+     <string>!</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_RBracket">
