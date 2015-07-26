@@ -230,7 +230,6 @@ void MainWindow::on_pushButton_Equals_clicked()
         QString str = value;
         str.replace(QString("÷"), QString("/"));
         str.replace(QString("π"), QString("pi"));
-        cout << "STRING : " << str.toStdString() << endl;
         FormulaElement *fe = fe->parseFormula(str.toStdString());
 
 
